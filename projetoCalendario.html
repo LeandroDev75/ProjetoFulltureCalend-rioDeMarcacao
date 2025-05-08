@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Calendário</title>
+  <style>
+    body {
+      display: flex;
+      gap: 10px;
+      font-family: sans-serif;
+      padding: 20px;
+    }
+
+    .calendario {
+      width: 300px;
+    }
+
+    .cabeca {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .dias {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 5px;
+      margin-top: 10px;
+    }
+
+    .um-dia {
+      padding: 10px;
+      background: #ddd;
+      text-align: center;
+      cursor: pointer;
+    }
+
+    .selecionado {
+      background-color: blue;
+      color: white;
+    }
+
+    .painel {
+      border: 1px solid black;
+      padding: 10px;
+    }
+
+    .botao-hora {
+      display: block;
+      margin-top: 5px;
+      width: 100%;
+    }
+
+    .reservas {
+      border: 1px solid gray;
+      padding: 10px;
+      margin-top: 10px;
+    }
+
+    .botao-excluir {
+      margin-left: 5px;
+      background-color: red;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="calendario">
+    <div class="cabeca">
+      <button onclick="mudarMes(-1)">&#8592;</button>
+      <h3 id="nomeMes"></h3>
+      <button onclick="mudarMes(1)">&#8594;</button>
+    </div>
+    <div class="dias" id="diasCalendario"></div>
+  </div>
+
+  <div class="painel">
+    <h3>Dia Escolhido:</h3>
+    <p id="diaEscolhido">Nenhum</p>
+    <div id="horas"></div>
+  </div>
+
+  <div class="painel">
+    <h3>Reservas Feitas:</h3>
+    <div id="reservas">Nenhuma reserva</div>
+  </div>
+
+  <script>
+    let agora = new Date();
+    let diaClicado = null;
+    let reservas = {};
+    let horasDisponiveis = ["08:00", "09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00"];
+
+    function mostrarCalendario() {
+      let nomeMes = document.getElementById("nomeMes");
+      let diasCalendario = document.getElementById("diasCalendario");
+
+      nomeMes.textContent = agora.toLocaleDateString("pt-BR", { month: "long", year: "numeric" });
+      diasCalendario.innerHTML = "";
+
+      let ano = agora.getFullYear();
+      let mes = agora.getMonth();
+      let primeiro = new Date(ano, mes, 1).getDay();
+      let totalDias = new Date(ano, mes + 1, 0).getDate();
+
+      for (let i = 0; i < primeiro; i++) {
+        let espaco = document.createElement("div");
+        diasCalendario.appendChild(espaco);
+      }
+
+      for (let d = 1; d <= totalDias; d++) {
+        let botaoDia = document.createElement("div");
+        botaoDia.textContent = d;
+        botaoDia.className = "um-dia";
+        botaoDia.onclick = () => selecionarDia(ano, mes, d);
+        diasCalendario.appendChild(botaoDia);
+      }
+    }
+
+    function mudarMes(num) {
+      agora.setMonth(agora.getMonth() + num);
+      mostrarCalendario();
+    }
+
+    function selecionarDia(ano, mes, dia) {
+      diaClicado = new Date(ano, mes, dia);
+      let diaTexto = diaClicado.toLocaleDateString("pt-BR");
+      let chave = diaClicado.toISOString().split("T")[0];
+
+      document.getElementById("diaEscolhido").textContent = diaTexto;
+
+      document.querySelectorAll(".um-dia").forEach(el => el.classList.remove("selecionado"));
+      let botoes = Array.from(document.querySelectorAll(".um-dia"));
+      let escolhido = botoes.find(e => +e.textContent === dia);
+      if (escolhido) escolhido.classList.add("selecionado");
+
+      mostrarHoras(chave);
+    }
+
+    function mostrarHoras(dataTexto) {
+      let divHoras = document.getElementById("horas");
+      divHoras.innerHTML = "";
+
+      horasDisponiveis.forEach(h => {
+        let botao = document.createElement("button");
+        botao.textContent = h;
+        botao.className = "botao-hora";
+        botao.disabled = reservas[dataTexto]?.includes(h);
+        botao.onclick = () => {
+          if (!reservas[dataTexto]) reservas[dataTexto] = [];
+          reservas[dataTexto].push(h);
+          alert("Reservado " + h + " em " + diaClicado.toLocaleDateString("pt-BR"));
+          mostrarHoras(dataTexto);
+          atualizarReservas();
+        };
+        divHoras.appendChild(botao);
+      });
+    }
+
+    function atualizarReservas() {
+      let divReservas = document.getElementById("reservas");
+      divReservas.innerHTML = "";
+
+      let chaves = Object.keys(reservas);
+      if (chaves.length === 0) {
+        divReservas.textContent = "Nenhuma reserva";
+        return;
+      }
+
+      chaves.forEach(data => {
+        let item = document.createElement("div");
+        let [ano, mes, dia] = data.split("-");
+        let nomeData = new Date(ano, mes - 1, dia).toLocaleDateString("pt-BR");
+
+        let lista = reservas[data].map(h => {
+          return `<span>${h} <button class="botao-excluir" onclick="remover('${data}', '${h}')">x</button></span>`;
+        }).join("<br>");
+
+        item.className = "reservas";
+        item.innerHTML = `<b>Dia:</b> ${nomeData}<br><b>Horários:</b><br>${lista}`;
+        divReservas.appendChild(item);
+      });
+    }
+
+    function remover(data, hora) {
+      let onde = reservas[data].indexOf(hora);
+      if (onde !== -1) {
+        reservas[data].splice(onde, 1);
+        if (reservas[data].length === 0) {
+          delete reservas[data];
+        }
+        atualizarReservas();
+        mostrarHoras(data);
+      }
+    }
+
+    mostrarCalendario();
+  </script>
+</body>
+</html>
