@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calendário de marcação de Horario</title>
+
+    <style>
+
+.headMes {
+
+    display: flex;
+}
+
+    </style>
+</head>
+<body>
+
+<div>
+
+<div class="headMes">
+<button onclick="mesAnterior()">-</button>
+<h3 id="mesAnoCalendario"></h3>
+<button onclick="mesPosterior">+</button>
+</div>
+
+<h5 id="weekDay"></h5>
+
+<div class="month-days">1</div>
+
+
+</div>
+
+<script>
+
+let dataAtual = new Date();
+
+console.log(dataAtual);
+
+let dataMesAno = dataAtual.toLocaleDateString("pt-BR", {month: "long", year: "numeric"});
+
+let calendarioMesAno = document.getElementById("mesAnoCalendario");
+
+calendarioMesAno.textContent =  dataMesAno; //dataAtual.toLocaleDateString("pt-BR", {month: "long", year: "numeric"});
+
+
+function atualizaCalendario() {
+
+let dataMesAno = dataAtual.toLocaleDateString("pt-BR", {month: "long", year: "numeric"});
+
+let calendarioMesAno = document.getElementById("mesAnoCalendario");
+
+calendarioMesAno.textContent =  dataMesAno; //dataAtual.toLocaleDateString("pt-BR", {month: "long", year: "numeric"});
+
+
+}
+
+function mesAnterior() {
+    
+    dataAtual.setMonth(dataAtual.getMonth() - 1);
+
+    atualizaCalendario();
+}
+
+let diasSemana = dataAtual.getDay();
+
+console.log(diasSemana);
+
+let semana = ["Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado"];
+
+for (let i = 0; i < semana.length; i++) {
+
+console.log(semana[i]);
+
+let getWeekDay = document.getElementById("weekDay");
+
+getWeekDay.textContent = semana.join(" "); //Domingo Segunda Terça Quarta Quinta Sexta Sábado
+
+}
+
+let diasMes = document.querySelector("div .month-days")
+
+let totalDias = new Date(2025, 4, 0).getDay(); // Retorna o indice 3 que representa Abril
+
+let posicaoDia = semana;
+
+posicaoDia.textContent = totalDias;
+
+console.log(totalDias);
+
+console.log(posicaoDia[4])
+
+
+//---------------------------------------------
+
+let dataNova = new Date();
+
+let separaMes = dataNova.toLocaleString('pt-BR', {month: 'long'});
+
+console.log(separaMes);
+
+//-----Código para saber a quantidade de dias do n~es atual.
+
+let dataAgora = new date();
+let anoagora = dataAgora.getFullYear();
+let mesAgora = dataAgora.getMonth();
+
+// Na função new Date() o formato de uso é new date(ano, mes, dia)
+
+let totalDiasMes = new Date (anoagora, mesAgora + 1, 0); //Colocando 0 (zero) como dia vai retornar o ultimo dia do mês anterios.
+
+
+
+
+
+
+
+</script>
+
+</body>
+</html>

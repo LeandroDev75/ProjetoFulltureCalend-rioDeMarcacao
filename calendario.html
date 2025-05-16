@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calendário de Marcação de Horário</title>
+</head>
+<body>
+    <div class="calendário">
+<div class="cabeca">...</div>
+<div class="dias" id="diasCalendario"></div>
+
+    </div>
+
+
+    <script>
+
+let dataHoje = new Date();
+
+console.log(dataHoje);
+
+dataHoje.getFullYear();
+dataHoje.getMonth();
+
+console.log(dataHoje.getFullYear());
+console.log(dataHoje.getMonth());
+
+
+dataHoje.setMonth(1);
+console.log(dataHoje);
+
+//Imprime no console: Wed Feb 12 2025 15:12:53 GMT-0300 (Horário Padrão de Brasília) 
+//Acresentou 1 mês na data atual.
+
+let data1 = new Date();
+data1.setMonth(data1.getMonth() + 1);
+console.log(data1.getMonth());
+
+let data2 = new Date();
+console.log(data2);
+console.log(2025, 4, 15)
+
+let data3 = new Date();
+ let dataLocal = data3.toLocaleDateString();
+ console.log(dataLocal);
+
+ let data4 = new Date();
+ let dataIso = data4.toISOString();
+ console.log(dataIso);
+
+ let dataSplit = dataIso.split("T")[1];
+
+ console.log(dataSplit)
+
+
+
+
+
+    </script>
+    
+</body>
+</html>
