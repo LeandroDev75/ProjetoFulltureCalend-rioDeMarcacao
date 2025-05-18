@@ -12,6 +12,19 @@
     display: flex;
 }
 
+
+
+.month-days{
+display: flex;
+flex-wrap: wrap;
+
+}
+
+.month-days div {
+
+    width: calc(100% / 7);
+}
+
     </style>
 </head>
 <body>
@@ -21,12 +34,14 @@
 <div class="headMes">
 <button onclick="mesAnterior()">-</button>
 <h3 id="mesAnoCalendario"></h3>
-<button onclick="mesPosterior">+</button>
+<button onclick="mesPosterior()">+</button>
 </div>
 
 <h5 id="weekDay"></h5>
 
-<div class="month-days">1</div>
+<div class="dias-mes">
+<div class="month-days"></div>
+</div>
 
 
 </div>
@@ -35,7 +50,6 @@
 
 let dataAtual = new Date();
 
-console.log(dataAtual);
 
 let dataMesAno = dataAtual.toLocaleDateString("pt-BR", {month: "long", year: "numeric"});
 
@@ -43,15 +57,17 @@ let calendarioMesAno = document.getElementById("mesAnoCalendario");
 
 calendarioMesAno.textContent =  dataMesAno; //dataAtual.toLocaleDateString("pt-BR", {month: "long", year: "numeric"});
 
+let diasdoMes = document.querySelector(".month-days");
 
 function atualizaCalendario() {
 
-let dataMesAno = dataAtual.toLocaleDateString("pt-BR", {month: "long", year: "numeric"});
+let xdataMesAno = dataAtual.toLocaleDateString("pt-BR", {month: "long", year: "numeric"});
 
-let calendarioMesAno = document.getElementById("mesAnoCalendario");
+let xcalendarioMesAno = document.getElementById("mesAnoCalendario");
 
-calendarioMesAno.textContent =  dataMesAno; //dataAtual.toLocaleDateString("pt-BR", {month: "long", year: "numeric"});
+xcalendarioMesAno.textContent =  xdataMesAno; //dataAtual.toLocaleDateString("pt-BR", {month: "long", year: "numeric"});
 
+desenhaDia();
 
 }
 
@@ -62,56 +78,77 @@ function mesAnterior() {
     atualizaCalendario();
 }
 
-let diasSemana = dataAtual.getDay();
+function mesPosterior() {
 
-console.log(diasSemana);
+    dataAtual.setMonth(dataAtual.getMonth() + 1)
 
-let semana = ["Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado"];
+    atualizaCalendario();
+}
 
-for (let i = 0; i < semana.length; i++) {
+//--------------------------------------------------------------------------
 
-console.log(semana[i]);
+function desenhaDia() {
+
+diasdoMes.innerHTML = "";    
 
 let getWeekDay = document.getElementById("weekDay");
 
+getWeekDay.innerHTML = "";    
+
+let diasSemana = dataAtual.getDay();
+
+let semana = ["Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado"];
+
+
+
 getWeekDay.textContent = semana.join(" "); //Domingo Segunda Terça Quarta Quinta Sexta Sábado
+
+
+let anoagora = dataAtual.getFullYear();
+let mesAgora = dataAtual.getMonth();
+
+
+// --------Adicionar espaços em branco nos dias da semana antes do dia 1º
+
+let getDiaAtual = dataAtual.getDay();
+
+console.log(getDiaAtual); //Pega o dia da Semana atual de domingo a sabado pelo indice de 0 a 6 0 = domingo
+
+let primeiroDiaSemana = new Date(anoagora, mesAgora, 1).getDay(); //Pega o primeiro dia do mês atual
+
+
+
+console.log(primeiroDiaSemana);
+
+//Adicona divs em branco antes do dia 1.
+
+for (let i = 0; i < primeiroDiaSemana; i++) {
+    let vazio = document.createElement("div");
+    vazio.textContent = "";
+diasdoMes.appendChild(vazio);
 
 }
 
-let diasMes = document.querySelector("div .month-days")
+let totalDiasMes = new Date (anoagora, mesAgora + 1, 0).getDate(); //Colocando 0 (zero) como dia vai retornar o ultimo dia do mês anterios.
 
-let totalDias = new Date(2025, 4, 0).getDay(); // Retorna o indice 3 que representa Abril
+console.log(totalDiasMes);
 
-let posicaoDia = semana;
+for (let i = 1; i <= totalDiasMes; i++) {
 
-posicaoDia.textContent = totalDias;
+    let diasMes = document.querySelector("div .month-days");
 
-console.log(totalDias);
+    let criaDiv = document.createElement("div");
+    criaDiv.textContent = i;
+    diasMes.appendChild(criaDiv);
 
-console.log(posicaoDia[4])
-
-
-//---------------------------------------------
-
-let dataNova = new Date();
-
-let separaMes = dataNova.toLocaleString('pt-BR', {month: 'long'});
-
-console.log(separaMes);
-
-//-----Código para saber a quantidade de dias do n~es atual.
-
-let dataAgora = new date();
-let anoagora = dataAgora.getFullYear();
-let mesAgora = dataAgora.getMonth();
-
-// Na função new Date() o formato de uso é new date(ano, mes, dia)
-
-let totalDiasMes = new Date (anoagora, mesAgora + 1, 0); //Colocando 0 (zero) como dia vai retornar o ultimo dia do mês anterios.
+}
 
 
 
+}
 
+
+atualizaCalendario();
 
 
 
