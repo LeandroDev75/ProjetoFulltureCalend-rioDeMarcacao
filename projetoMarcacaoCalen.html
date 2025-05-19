@@ -14,16 +14,29 @@
 
 
 
-.month-days{
+.month-days {
 display: flex;
 flex-wrap: wrap;
+
 
 }
 
 .month-days div {
 
     width: calc(100% / 7);
+    display: flex;
+    border: 1px solid rgb(141, 141, 141);
+    margin: 2px;
+    justify-content: center;
+      
 }
+
+#weekDay {
+    display: flex;   
+    
+}
+
+
 
     </style>
 </head>
@@ -37,7 +50,17 @@ flex-wrap: wrap;
 <button onclick="mesPosterior()">+</button>
 </div>
 
-<h5 id="weekDay"></h5>
+<h5 id="weekDay">
+<div>Domingo</div>
+<div>Segunda</div>
+<div>Terça</div>
+<div>Quarta</div>
+<div>Quinta</div>
+<div>Sexta</div>
+<div>Sábado</div>
+
+
+</h5>
 
 <div class="dias-mes">
 <div class="month-days"></div>
@@ -91,17 +114,17 @@ function desenhaDia() {
 
 diasdoMes.innerHTML = "";    
 
-let getWeekDay = document.getElementById("weekDay");
+//let getWeekDay = document.getElementById("weekDay");
 
-getWeekDay.innerHTML = "";    
+//getWeekDay.innerHTML = "";    
 
-let diasSemana = dataAtual.getDay();
+//let diasSemana = dataAtual.getDay();
 
 let semana = ["Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado"];
 
 
 
-getWeekDay.textContent = semana.join(" "); //Domingo Segunda Terça Quarta Quinta Sexta Sábado
+//getWeekDay.textContent = semana.join(" "); //Domingo Segunda Terça Quarta Quinta Sexta Sábado
 
 
 let anoagora = dataAtual.getFullYear();
