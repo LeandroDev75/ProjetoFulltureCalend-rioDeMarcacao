@@ -32,6 +32,22 @@ display: flex;
     margin-left: 10px;
 }
 
+.criaDiasDoMes {
+
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.criaDiasDoMes div {
+
+    width: calc(100% / 7);
+    display: flex;
+
+
+    
+
+}
+
 
 
 </style>
@@ -74,39 +90,86 @@ display: flex;
 
 const dataAtual = new Date();
 
-console.log(dataAtual);
+const DivCriaDiasDoMes = document.querySelector(".criaDiasDoMes")
 
-const obterMesAnoAtual = dataAtual.getMonth();
-
-console.log(obterMesAnoAtual);
-
-const obterAnoAtual = dataAtual.getFullYear();
-
-console.log(obterAnoAtual);
 
 let mesesDoAno = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"];
 
+function atualizaCalendario() {
+
+const obterMesAnoAtual = dataAtual.getMonth();
+
+const obterAnoAtual = dataAtual.getFullYear();    
+
 let pegarDoArray_mesesDoAno = mesesDoAno[dataAtual.getMonth()];
 
-console.log(pegarDoArray_mesesDoAno);
 
 let pegaDivMesAnoCalendario = document.getElementById("mesAnoCabecalho");
 
 let exibirMesAtual_No_h3_id_mesAnocabecalho = `${pegarDoArray_mesesDoAno}`;
 
-console.log(exibirMesAtual_No_h3_id_mesAnocabecalho);
 
 pegaDivMesAnoCalendario.textContent = `${pegarDoArray_mesesDoAno}`;
 
 let pega_h3_id_anoCabecalho = document.getElementById("anoCabecalho");
 pega_h3_id_anoCabecalho.textContent = obterAnoAtual;
 
+//--------------------------
+
+const preencheDiasSemana = new Date(obterAnoAtual, obterMesAnoAtual, 1).getDay();
+
+console.log(preencheDiasSemana);
+
+ criaDiv1.textContent = "";
+
+for (let i = 0; i < preencheDiasSemana; i++ ) {
+
+    let criaDiv1 = document.createElement("div");
+   
+    DivCriaDiasDoMes.appendChild(criaDiv1);
+}
+
+//-----------------------------------------
+
+let pegaDiv_CriaDiasDoMes = document.querySelector("div .criaDiasDoMes");
+pegaDiv_CriaDiasDoMes.innerHTML = "";
+
+
+const ultimoDiaMes = new Date(obterAnoAtual, obterMesAnoAtual + 1, 0).getDate();
+
+
+for (let i = 1; i <= ultimoDiaMes; i++){
+
+    let pegaDiv_CriaDiasDoMes = document.querySelector("div .criaDiasDoMes");
+
+    let criaDiv = document.createElement("div");
+
+    criaDiv.textContent = i;
+
+    pegaDiv_CriaDiasDoMes.appendChild(criaDiv);
+
+
+}
 
 
 
 
+}
 
-let exiberAno_No_h3_id_mesAnocabecalho = `${obterAnoAtual}`;
+function mesAnterior() {
+
+dataAtual.setMonth(dataAtual.getMonth() - 1);
+
+atualizaCalendario();0  
+
+
+}
+
+atualizaCalendario();
+
+
+
+
 
 
 
