@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marcação de Horário</title>
+
+<style>
+
+.DivMesAno {
+display: flex;
+
+}
+
+#mesAnoCabecalho {
+
+    margin-left: 15px;
+}
+
+#anoCabecalho {
+
+    margin-left: 10px;;
+}
+
+#weekDay {
+display: flex;
+
+}
+
+.weekDayNome {
+
+    margin-left: 10px;
+}
+
+
+
+</style>
+
+</head>
+<body>
+
+<div>
+
+<div class="cabecalhoMesAno">
+<button onclick="mesAnterior()">-</button>
+<div class="DivMesAno">
+<h3 id="mesAnoCabecalho"></h3>
+<h3 id="anoCabecalho"></h3>
+</div>
+<button onclick="mesPosterior()">+</button>
+</div>
+
+<h5 id="weekDay">
+<div class="weekDayNome">Domingo</div>
+<div class="weekDayNome">Segunda</div>
+<div class="weekDayNome">Terça</div>
+<div class="weekDayNome">Quarta</div>
+<div class="weekDayNome">Quinta</div>
+<div class="weekDayNome">Sexta</div>
+<div class="weekDayNome">Sábado</div>
+
+
+</h5>
+
+<div class="diasDoMes">
+<div class="criaDiasDoMes"></div>
+</div>
+
+
+</div>
+
+<script>
+
+
+const dataAtual = new Date();
+
+console.log(dataAtual);
+
+const obterMesAnoAtual = dataAtual.getMonth();
+
+console.log(obterMesAnoAtual);
+
+const obterAnoAtual = dataAtual.getFullYear();
+
+console.log(obterAnoAtual);
+
+let mesesDoAno = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"];
+
+let pegarDoArray_mesesDoAno = mesesDoAno[dataAtual.getMonth()];
+
+console.log(pegarDoArray_mesesDoAno);
+
+let pegaDivMesAnoCalendario = document.getElementById("mesAnoCabecalho");
+
+let exibirMesAtual_No_h3_id_mesAnocabecalho = `${pegarDoArray_mesesDoAno}`;
+
+console.log(exibirMesAtual_No_h3_id_mesAnocabecalho);
+
+pegaDivMesAnoCalendario.textContent = `${pegarDoArray_mesesDoAno}`;
+
+let pega_h3_id_anoCabecalho = document.getElementById("anoCabecalho");
+pega_h3_id_anoCabecalho.textContent = obterAnoAtual;
+
+
+
+
+
+
+let exiberAno_No_h3_id_mesAnocabecalho = `${obterAnoAtual}`;
+
+
+
+
+
+    
+
+
+
+
+</script>
+    
+</body>
+</html>
