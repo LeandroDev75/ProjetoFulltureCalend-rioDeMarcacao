@@ -41,10 +41,7 @@ display: flex;
 .criaDiasDoMes div {
 
     width: calc(100% / 7);
-    display: flex;
-
-
-    
+    display: flex;    
 
 }
 
@@ -90,12 +87,14 @@ display: flex;
 
 const dataAtual = new Date();
 
-const DivCriaDiasDoMes = document.querySelector(".criaDiasDoMes")
+
 
 
 let mesesDoAno = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"];
 
 function atualizaCalendario() {
+
+
 
 const obterMesAnoAtual = dataAtual.getMonth();
 
@@ -116,23 +115,24 @@ pega_h3_id_anoCabecalho.textContent = obterAnoAtual;
 
 //--------------------------
 
+const DivCriaDiasDoMes = document.querySelector(".criaDiasDoMes")
+DivCriaDiasDoMes.innerHTML = "";
+
 const preencheDiasSemana = new Date(obterAnoAtual, obterMesAnoAtual, 1).getDay();
-
-console.log(preencheDiasSemana);
-
- criaDiv1.textContent = "";
 
 for (let i = 0; i < preencheDiasSemana; i++ ) {
 
-    let criaDiv1 = document.createElement("div");
-   
-    DivCriaDiasDoMes.appendChild(criaDiv1);
+    const divVazio = document.createElement("div");
+    
+   divVazio.textContent = "";
+
+    DivCriaDiasDoMes.appendChild(divVazio);
 }
 
 //-----------------------------------------
 
 let pegaDiv_CriaDiasDoMes = document.querySelector("div .criaDiasDoMes");
-pegaDiv_CriaDiasDoMes.innerHTML = "";
+
 
 
 const ultimoDiaMes = new Date(obterAnoAtual, obterMesAnoAtual + 1, 0).getDate();
@@ -146,10 +146,10 @@ for (let i = 1; i <= ultimoDiaMes; i++){
 
     criaDiv.textContent = i;
 
-    pegaDiv_CriaDiasDoMes.appendChild(criaDiv);
+    pegaDiv_CriaDiasDoMes.appendChild(criaDiv);  
 
 
-}
+}   
 
 
 
@@ -160,7 +160,16 @@ function mesAnterior() {
 
 dataAtual.setMonth(dataAtual.getMonth() - 1);
 
-atualizaCalendario();0  
+atualizaCalendario(); 
+
+
+}
+
+function mesPosterior() {
+
+dataAtual.setMonth(dataAtual.getMonth() + 1);
+
+atualizaCalendario(); 
 
 
 }
